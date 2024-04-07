@@ -3,22 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conferences</title>
+    <title>Welcome to Conferences</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Add any additional CSS styles here */
-        .header {
-            text-align: center;
-            margin-top: 50px;
+        /* Custom styles for conference table */
+        .conference-table {
+            width: 80%; /* Adjust the width as needed */
+            margin: 50px auto; /* Center the table */
         }
-        .header h1 {
-            font-weight: bold;
-            font-size: 36px;
+
+        /* Additional styling for table */
+        .conference-table th, .conference-table td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+
+        .conference-table th {
+            background-color: #f2f2f2;
         }
     </style>
+
+    <style>
+        .conference-details {
+            font-family: 'Nexa', sans-serif;
+            font-weight: 300; /* Nexa Extra Light */
+            font-style: italic;
+        }
+
+        .description-font {
+            font-family: 'Nexa', sans-serif;
+            font-weight: 200; /* Nexa Light */
+        }
+    </style>
+
 </head>
 <body>
-<div class="header">
-    <h1>CONFERENCES</h1>
+<div class="container">
+    <div class="conference-table">
+        <h1 class="text-center mb-4">Welcome to Conferences</h1>
+        <h2 class="text-center mb-3">Conferences List</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($conferences as $conference)
+                <tr>
+                    <td class="conference-name" data-id="{{ $conference->id }}" data-toggle="modal" data-target="#conferenceModal">{{ $conference->name }}</td>
+                    <td>{{ $conference->date }}</td>
+                    <td>{{ $conference->address }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- Conference Modal -->
+<div class="modal fade" id="conferenceModal" tabindex="-1" role="dialog" aria-labelledby="conferenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="conferenceModalLabel">Conference Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 id="conferenceName" class="modal-title mb-3"></h4>
+                <p id="conferenceDateAddress" class="conference-details mb-3"></p>
+                <p id="conferenceDescription" class="description-font"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- JavaScript/jQuery libraries -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    $(document).ready(function() {
+        $('.conference-name').click(function() {
+            var id = $(this).data('id');
+            $.get('/conference/description/' + id, function(data) {
+                $('#conferenceName').text(data.name);
+                $('#conferenceDateAddress').html('<i>' + data.date + ' | ' + data.address + '</i>');
+                $('#conferenceDescription').text(data.description);
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>
