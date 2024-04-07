@@ -22,31 +22,31 @@
         .conference-table th {
             background-color: #f2f2f2;
         }
-    </style>
 
-    <style>
-        .conference-details {
-            font-family: 'Nexa', sans-serif;
-            font-weight: 300; /* Nexa Extra Light */
-            font-style: italic;
-        }
-
-        .description-font {
-            font-family: 'Nexa', sans-serif;
-            font-weight: 200; /* Nexa Light */
+        /* Additional styling for top right buttons */
+        .top-right-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
     </style>
-
 </head>
 <body>
 <div class="container">
+    <!-- Top right buttons -->
+    <div class="top-right-buttons">
+        <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+        <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
+    </div>
+
+    <!-- Conference Table -->
     <div class="conference-table">
         <h1 class="text-center mb-4">Welcome to Conferences</h1>
         <h2 class="text-center mb-3">Conferences List</h2>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Title</th>
                 <th>Date</th>
                 <th>Address</th>
             </tr>
@@ -62,30 +62,26 @@
             </tbody>
         </table>
     </div>
-</div>
 
-<!-- Conference Modal -->
-<div class="modal fade" id="conferenceModal" tabindex="-1" role="dialog" aria-labelledby="conferenceModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="conferenceModalLabel">Conference Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <h4 id="conferenceName" class="modal-title mb-3"></h4>
-                <p id="conferenceDateAddress" class="conference-details mb-3"></p>
-                <p id="conferenceDescription" class="description-font"></p>
+    <!-- Conference Modal -->
+    <div class="modal fade" id="conferenceModal" tabindex="-1" role="dialog" aria-labelledby="conferenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="conferenceModalLabel">Conference Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <h4 id="conferenceName" class="modal-title mb-3"></h4>
+                    <p id="conferenceDateAddress" class="conference-details mb-3"></p>
+                    <p id="conferenceDescription" class="description-font"></p>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
 
 <!-- JavaScript/jQuery libraries -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -105,7 +101,5 @@
         });
     });
 </script>
-
-
 </body>
 </html>
