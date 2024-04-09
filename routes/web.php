@@ -26,5 +26,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Route to create a new conference
 Route::post('/create-conference', [ConferenceController::class, 'create'])->name('conference.create');
 
+Route::delete('/conference/{id}', [ConferenceController::class, 'delete'])->name('conference.delete');
+
+// Route to fetch conference data for editing
+Route::get('/conference/{id}/edit', [ConferenceController::class, 'edit'])->name('conference.edit');
+
+Route::put('/conference/{id}', [ConferenceController::class, 'update'])->name('conference.update');
 
 
