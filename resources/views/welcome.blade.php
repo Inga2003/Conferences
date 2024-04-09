@@ -35,9 +35,19 @@
 <div class="container">
     <!-- Top right buttons -->
     <div class="top-right-buttons">
-        <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
-        <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
+        @if (Auth::check() && Auth::user()->role === 'admin')
+            <!-- Display log out button for admin -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-primary">Log Out</button>
+            </form>
+        @else
+            <!-- Display register and login buttons for non-admin users -->
+            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+            <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
+        @endif
     </div>
+
 
     <!-- Conference Table -->
     <div class="conference-table">
