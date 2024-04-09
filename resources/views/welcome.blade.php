@@ -71,9 +71,15 @@
             @endforeach
             </tbody>
         </table>
+        <!-- Create conference button -->
+        @if (Auth::check() && Auth::user()->role === 'admin')
+            <div class="text-right mt-3">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createConferenceModal">Create Conference</button>
+            </div>
+        @endif
     </div>
 
-    <!-- Conference Modal -->
+    <!-- Conference Description Modal -->
     <div class="modal fade" id="conferenceModal" tabindex="-1" role="dialog" aria-labelledby="conferenceModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -88,6 +94,42 @@
                     <p id="conferenceDateAddress" class="conference-details mb-3"></p>
                     <p id="conferenceDescription" class="description-font"></p>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Conference Modal -->
+<div class="modal fade" id="createConferenceModal" tabindex="-1" role="dialog" aria-labelledby="createConferenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="createConferenceModalLabel">Create New Conference</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('conference.create') }}" id="createConferenceForm">
+                    @csrf
+                    <div class="form-group">
+                        <label for="name">Title</label>
+                        <input type="text" name="name" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" name="date" id="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" name="address" id="address" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Conference</button>
+                </form>
             </div>
         </div>
     </div>
@@ -110,6 +152,29 @@
             });
         });
     });
+
+    $(document).ready(function() {
+        $('#createConferenceForm').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            var formData = $(this).serialize();
+
+            // Send an AJAX POST request to the server
+            $.post('/create-conference', formData)
+                .done(function(response) {
+                    // Handle the success response
+                    console.log(response);
+                    $('#createConferenceModal').modal('hide'); // Close the modal
+                    location.reload(); // Reload the welcome page
+                    alert('Conference created successfully!');
+                })
+                .fail(function(error) {
+                    // Handle the error response
+                    console.error(error);
+                    alert('Failed to create conference. Please try again.');
+                });
+        });
+    });
+
 </script>
 </body>
 </html>

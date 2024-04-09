@@ -23,3 +23,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Route to create a new conference
+Route::post('/create-conference', [ConferenceController::class, 'create'])->name('conference.create');
+
+
+
