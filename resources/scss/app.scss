@@ -1,0 +1,33 @@
+// Custom styles for conference table
+.conference-table {
+    width: 80%; /* Adjust the width as needed */
+    margin: 50px auto; /* Center the table */
+
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+        font-size: 18px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+}
+
+// Custom styles for clickable conference names
+.conference-name {
+    cursor: pointer;
+    color: blue; /* Change color as needed */
+    text-decoration: underline; /* Add underline */
+
+    &:hover {
+        color: darkblue; /* Change hover color as needed */
+    }
+}
+
+// Additional styling for top right buttons
+.top-right-buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}

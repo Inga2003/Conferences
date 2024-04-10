@@ -5,40 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Conferences</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles for conference table */
-        .conference-table {
-            width: 80%; /* Adjust the width as needed */
-            margin: 50px auto; /* Center the table */
-        }
-        /* Custom styles for clickable conference names */
-        .conference-name {
-            cursor: pointer;
-            color: blue; /* Change color as needed */
-            text-decoration: underline; /* Add underline */
-        }
-        .conference-name:hover {
-            color: darkblue; /* Change hover color as needed */
-        }
-
-        /* Additional styling for table */
-        .conference-table th, .conference-table td {
-            text-align: center;
-            vertical-align: middle;
-            font-size: 18px;
-        }
-
-        .conference-table th {
-            background-color: #f2f2f2;
-        }
-
-        /* Additional styling for top right buttons */
-        .top-right-buttons {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-    </style>
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet"> <!-- Link to your compiled CSS file -->
 </head>
 <body>
 <div class="container">
@@ -56,7 +23,6 @@
             <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
         @endif
     </div>
-
 
     <!-- Conference Table -->
     <div class="conference-table">
@@ -76,7 +42,7 @@
             <tbody>
             @foreach($conferences as $conference)
                 <tr>
-                    <td class="conference-name" data-id="{{ $conference->id }}" data-toggle="modal" data-target="#conferenceModal">{{ $conference->name }}</td>
+                    <td class="conference-name"  data-id="{{ $conference->id }}" data-toggle="modal" onclick="console.log('Conference name clicked');" data-target="#conferenceModal">{{ $conference->name }}</td>
                     <td>{{ $conference->date }}</td>
                     <td>{{ $conference->address }}</td>
                     @if (Auth::check() && Auth::user()->role === 'admin')
@@ -102,7 +68,6 @@
             </div>
         @endif
     </div>
-
 
     <!-- Conference Description Modal -->
     <div class="modal fade" id="conferenceModal" tabindex="-1" role="dialog" aria-labelledby="conferenceModalLabel" aria-hidden="true">
@@ -171,7 +136,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="editConferenceForm" action="{{ route('conference.update', ['id' => $conference->id]) }}" method="POST">
-                    @csrf
+                        @csrf
                         @method('PUT')
                         <div class="form-group">
                             <label for="editTitle">Title</label>
@@ -198,58 +163,10 @@
 
 </div>
 
-<!-- JavaScript/jQuery libraries -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{{ mix('js/app.js') }}"></script> <!-- Include your compiled JavaScript file -->
 
-<!-- Custom JavaScript -->
-<script>
-    $(document).ready(function() {
-        $('.conference-name').click(function() {
-            var id = $(this).data('id');
-            $.get('/conference/description/' + id, function(data) {
-                $('#conferenceName').text(data.name);
-                $('#conferenceDateAddress').html('<i>' + data.date + ' | ' + data.address + '</i>');
-                $('#conferenceDescription').text(data.description);
-            });
-        });
-
-        $('.edit-conference').click(function() {
-            var id = $(this).data('id');
-            $.get('/conference/' + id + '/edit', function(data) {
-                $('#editTitle').val(data.name);
-                $('#editDate').val(data.date);
-                $('#editAddress').val(data.address);
-                $('#editDescription').val(data.description);
-                $('#editConferenceForm').attr('action', '/conference/' + id); // Set the form action dynamically
-            });
-        });
-    });
-
-    $(document).ready(function() {
-        $('#saveChangesBtn').click(function() {
-            var id = $('#editConferenceForm').attr('action').split('/').pop(); // Extract conference ID from form action
-            var formData = $('#editConferenceForm').serialize(); // Serialize form data
-
-            $.ajax({
-                url: '/conference/' + id,
-                type: 'PUT',
-                data: formData,
-                success: function(response) {
-                    // Handle success response, e.g., close modal, refresh page, etc.
-                    $('#editConferenceModal').modal('hide');
-                    location.reload(); // Refresh page after successful update
-                },
-                error: function(xhr) {
-                    // Handle error response
-                    console.error(xhr.responseText);
-                    // You can show an error message or perform other actions here
-                }
-            });
-        });
-    });
-
-</script>
 </body>
 </html>
