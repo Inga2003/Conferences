@@ -1,5 +1,5 @@
 <!-- resources/views/login.blade.php -->
-
+@include('header')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +13,6 @@
     <h2 class="my-4">User Login</h2>
     <form method="POST" action="{{ route('login.post') }}">
         @csrf
-
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>

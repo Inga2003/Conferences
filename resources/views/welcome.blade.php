@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+@include('header')
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,22 +9,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet"> <!-- Link to your compiled CSS file -->
 </head>
 <body>
-<div class="container">
-    <!-- Top right buttons -->
-    <div class="top-right-buttons">
-        @if (Auth::check() && Auth::user()->role === 'admin')
-            <!-- Display log out button for admin -->
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-primary">Log Out</button>
-            </form>
-        @else
-            <!-- Display register and login buttons for non-admin users -->
-            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
-            <a href="{{ route('login') }}" class="btn btn-secondary">Login</a>
-        @endif
-    </div>
-
+<div class="container-fluid"> <!-- Use container-fluid for full-width container -->
     <!-- Conference Table -->
     <div class="conference-table">
         <h1 class="text-center mb-4">Welcome to Conferences</h1>

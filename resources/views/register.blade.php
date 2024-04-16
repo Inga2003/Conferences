@@ -1,5 +1,5 @@
 <!-- resources/views/register.blade.php -->
-
+@include('header')
 <!DOCTYPE html>
 <html lang="en">
 <head>

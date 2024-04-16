@@ -69,7 +69,6 @@ class ConferenceController extends Controller
     // Method to update a conference
     public function update(Request $request, $id)
     {
-        // Validate request data
         $request->validate([
             'name' => 'required|string|max:255',
             'date' => 'required|date',
@@ -77,7 +76,6 @@ class ConferenceController extends Controller
             'description' => 'required|string',
         ]);
 
-        // Find the conference by ID
         $conference = Conference::findOrFail($id);
 
         // Update the conference data
@@ -88,7 +86,6 @@ class ConferenceController extends Controller
             'description' => $request->description,
         ]);
 
-        // Return JSON response indicating success
         return response()->json(['message' => 'Conference updated successfully']);
     }
 }

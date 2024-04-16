@@ -29,12 +29,10 @@ $(document).ready(function() {
             type: 'PUT',
             data: formData,
             success: function(response) {
-                // Handle success response, e.g., close modal, refresh page, etc.
                 $('#editConferenceModal').modal('hide');
                 location.reload(); // Refresh page after successful update
             },
             error: function(xhr) {
-                // Handle error response
                 console.error(xhr.responseText);
             }
         });

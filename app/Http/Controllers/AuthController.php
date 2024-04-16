@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
@@ -20,6 +20,7 @@ class AuthController extends Controller
     {
         return view('login');
     }
+
     // Method to handle registration form submission
     public function register(Request $request)
     {
@@ -47,17 +48,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // Check if the user is an admin
             if ($user->role !== 'admin') {
                 // Update the user's role to "admin"
                 $user->update(['role' => 'admin']);
             }
 
-            return redirect()->route('home');
+            // Set a session cookie manually
+            $minutes = 60 * 24 * 30; // 30 days
+            $response = redirect()->route('home');
+            $response->cookie('user_id', $user->id, $minutes);
+
+            return $response;
         }
 
         // If authentication fails, redirect back with error message
@@ -68,11 +72,11 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $user->role = 'guest'; // Update the user's role to "guest"
-            $user->save(); // Save the changes
-            Auth::logout(); // Log the user out
+            $user->role = 'guest';
+            $user->save();
+            Auth::logout();
         }
 
-        return redirect('/'); // Redirect the user to the welcome page
+        return redirect('/');
     }
 }
