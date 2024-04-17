@@ -6,14 +6,12 @@ use Illuminate\Http\Request;
 
 class ConferenceController extends Controller
 {
-    // Method to fetch all conferences
     public function index()
     {
         $conferences = Conference::all();
         return view('welcome', compact('conferences'));
     }
 
-    // Method to fetch conference description by ID
     public function getDescription($id)
     {
         $conference = Conference::findOrFail($id);
@@ -25,10 +23,8 @@ class ConferenceController extends Controller
         ]);
     }
 
-    // Method to create a new conference
     public function create(Request $request)
     {
-        // Validate request data
         $request->validate([
             'name' => 'required|string|max:255',
             'date' => 'required|date',
@@ -36,7 +32,6 @@ class ConferenceController extends Controller
             'description' => 'required|string',
         ]);
 
-        // Create the conference
         $conference = Conference::create([
             'name' => $request->name,
             'date' => $request->date,
@@ -46,7 +41,6 @@ class ConferenceController extends Controller
         return redirect()->route('home')->with('success', 'Conference created successfully!');
     }
 
-    // Method to delete a conference
     public function delete($id)
     {
         $conference = Conference::findOrFail($id);
@@ -54,7 +48,6 @@ class ConferenceController extends Controller
         return redirect()->route('home')->with('success', 'Conference deleted successfully!');
     }
 
-    // Method to fetch conference data for editing
     public function edit($id)
     {
         $conference = Conference::findOrFail($id);
@@ -66,7 +59,6 @@ class ConferenceController extends Controller
         ]);
     }
 
-    // Method to update a conference
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -78,7 +70,6 @@ class ConferenceController extends Controller
 
         $conference = Conference::findOrFail($id);
 
-        // Update the conference data
         $conference->update([
             'name' => $request->name,
             'date' => $request->date,

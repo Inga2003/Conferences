@@ -1,5 +1,5 @@
-
 $(document).ready(function() {
+    // Fetching conference data
     $('.conference-name').click(function() {
         var id = $(this).data('id');
         $.get('/conference/description/' + id, function(data) {
@@ -9,6 +9,7 @@ $(document).ready(function() {
         });
     });
 
+    // Function to handle editing conference
     $('.edit-conference').click(function() {
         var id = $(this).data('id');
         $.get('/conference/' + id + '/edit', function(data) {
@@ -16,13 +17,14 @@ $(document).ready(function() {
             $('#editDate').val(data.date);
             $('#editAddress').val(data.address);
             $('#editDescription').val(data.description);
-            $('#editConferenceForm').attr('action', '/conference/' + id); // Set the form action dynamically
+            $('#editConferenceForm').attr('action', '/conference/' + id);
         });
     });
 
+    // Function to handle saving changes to edited conference
     $('#saveChangesBtn').click(function() {
         var id = $('#editConferenceForm').attr('action').split('/').pop(); // Extract conference ID from form action
-        var formData = $('#editConferenceForm').serialize(); // Serialize form data
+        var formData = $('#editConferenceForm').serialize();
 
         $.ajax({
             url: '/conference/' + id,
@@ -30,7 +32,7 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 $('#editConferenceModal').modal('hide');
-                location.reload(); // Refresh page after successful update
+                location.reload();
             },
             error: function(xhr) {
                 console.error(xhr.responseText);

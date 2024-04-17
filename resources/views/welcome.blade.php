@@ -28,11 +28,11 @@
             <tbody>
             @foreach($conferences as $conference)
                 <tr>
-                    <td class="conference-name"  data-id="{{ $conference->id }}" data-toggle="modal" onclick="console.log('Conference name clicked');" data-target="#conferenceModal">{{ $conference->name }}</td>
+                    <td class="conference-name" data-id="{{ $conference->id }}" data-toggle="modal" data-target="#conferenceModal">{{ $conference->name }}</td>
                     <td>{{ $conference->date }}</td>
                     <td>{{ $conference->address }}</td>
-                    @if (Auth::check() && Auth::user()->role === 'admin')
-                        <td>
+                    <td>
+                        @if(Auth::check() && Auth::user()->role === 'admin')
                             <!-- Edit button -->
                             <button class="btn btn-sm btn-primary mr-1 edit-conference" data-toggle="modal" data-target="#editConferenceModal" data-id="{{ $conference->id }}">Edit</button>
                             <!-- Delete button -->
@@ -41,8 +41,8 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this conference?')">Delete</button>
                             </form>
-                        </td>
-                    @endif
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -121,7 +121,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editConferenceForm" action="{{ route('conference.update', ['id' => $conference->id]) }}" method="POST">
+                    <form id="editConferenceForm" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -146,13 +146,11 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="{{ mix('js/app.js') }}"></script> <!-- Include your compiled JavaScript file -->
-
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
